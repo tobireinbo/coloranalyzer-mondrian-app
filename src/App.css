@@ -1,38 +1,111 @@
+:root {
+  --color-accent-solid: rgb(45, 67, 190);
+  --color-accent-light: rgb(100, 119, 228);
+  --color-accent-ultralight: rgb(160, 171, 233);
+  --border-accent: solid 1px rgb(7, 13, 49);
+}
+
+div {
+  box-sizing: border-box;
+}
+
+h1 {
+  font-family: "Roboto";
+  font-weight: unset;
+  font-size: xxx-large;
+  margin: unset;
+}
+
+h2 {
+  font-family: "Roboto";
+  font-weight: unset;
+  font-size: xx-large;
+  margin: unset;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.Wrapper {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  width: 100%;
+  max-width: 1280px;
+  padding: 30px;
+}
+
+.Image-Container {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 100%;
+  height: 50vh;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  overflow: hidden;
+  border: var(--border-accent);
+  border-radius: 8px;
+}
+
+.Image-Selector {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-accent-ultralight);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.Image-Selector-Image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.Image-Selector:hover {
+  background-color: var(--color-accent-light);
+}
+
+.Selector__Input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.Process-Button {
+  cursor: pointer;
+  border-radius: 8px;
+  border: var(--border-accent);
   color: white;
+  font-family: "Roboto";
+  font-size: larger;
+  width: 250px;
+  padding: 15px;
+  margin-bottom: 30px;
+  background-color: var(--color-accent-solid);
+  box-shadow: inset 1px 1px 1px 0 hsla(0, 0%, 100%, 0.199);
 }
 
-.App-link {
-  color: #61dafb;
+.Process-Button:disabled {
+  background-color: rgb(137, 153, 240);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Process-Button:hover {
+  background-color: var(--color-accent-light);
 }
