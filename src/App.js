@@ -205,7 +205,7 @@ function App() {
               greyArray[n].percentage =
                 greyArray[n].amount * imgPixelAmountSmallest;
 
-              var blockHeight = Math.floor(
+              var blockHeight = Math.ceil(
                 imgHeight * (greyArray[n].percentage / 100)
               );
 
@@ -231,7 +231,7 @@ function App() {
                 setProcessedImg(result);
                 setLoading(false);
               })
-              .catch(console.log("Fehler"));
+              .catch((err) => console.log("Fehler: ", err));
           });
         });
       });
