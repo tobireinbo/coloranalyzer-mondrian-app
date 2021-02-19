@@ -296,15 +296,13 @@ function App() {
           <label>Draw Border</label>
         </div>
 
-        {/* {!processedImg && ( */}
         <button
           className="Process-Button"
-          disabled={!img}
+          disabled={!img || loading}
           onClick={() => handleMondrian()}
         >
           Generate
         </button>
-        {/* )} */}
 
         {/* Processed Image */}
         {processedImg ? (
