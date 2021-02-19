@@ -9,6 +9,10 @@ function App() {
   const [img, setImg] = useState();
   const [processedImg, setProcessedImg] = useState();
   const [loading, setLoading] = useState(false);
+  const [palletteSize, setPalletteSize] = useState(20);
+  const [withBorder, setWithBorder] = useState(false);
+
+  console.log("is Checked? ", withBorder);
 
   function handleImage(e) {
     if (e.target.files[0] != null) {
@@ -24,6 +28,8 @@ function App() {
   }
 
   async function genMondrian(imageInput) {
+    setProcessedImg(null);
+
     var dominantColors = [];
     var imgWidth = 0;
     var imgHeight = 0;
@@ -49,7 +55,7 @@ function App() {
      *
      */
 
-    const pallette = await getPaletteFromURL(imageInput, 20, 1);
+    const pallette = await getPaletteFromURL(imageInput, palletteSize, 1);
 
     for (let i = 0; i < pallette.length; i++) {
       dominantColors.push({
@@ -161,8 +167,11 @@ function App() {
             }
           }
 
-          finalExport.composite(normalizedImg, 0, 0);
-
+          if (withBorder) {
+            finalExport.composite(image, 0, 0);
+          } else {
+            finalExport.composite(normalizedImg, 0, 0);
+          }
           /*
            *
            * Erstellt GreyScale
@@ -267,15 +276,35 @@ function App() {
           </div>
         </label>
 
-        {!processedImg && (
-          <button
-            className="Process-Button"
-            disabled={!img}
-            onClick={() => handleMondrian()}
-          >
-            Generate
-          </button>
-        )}
+        <label>Colors in Palette: {palletteSize}</label>
+
+        <input
+          type="range"
+          min="5"
+          max="30"
+          step="1"
+          value={palletteSize}
+          onChange={(e) => setPalletteSize(e.target.value)}
+        />
+
+        <div style={{ display: "flex", marginBottom: "30px" }}>
+          <input
+            type="checkbox"
+            checked={withBorder}
+            onChange={(e) => setWithBorder(e.target.checked)}
+          />
+          <label>Draw Border</label>
+        </div>
+
+        {/* {!processedImg && ( */}
+        <button
+          className="Process-Button"
+          disabled={!img}
+          onClick={() => handleMondrian()}
+        >
+          Generate
+        </button>
+        {/* )} */}
 
         {/* Processed Image */}
         {processedImg ? (
