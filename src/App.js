@@ -10,7 +10,9 @@ function App() {
   const [processedImg, setProcessedImg] = useState();
   const [loading, setLoading] = useState(false);
   const [palletteSize, setPalletteSize] = useState(20);
+  const [rasterSizeFactor, setRasterSizeFactor] = useState(30);
   const [withBorder, setWithBorder] = useState(false);
+  const [withGrayScale, setWithGrayScale] = useState(false);
 
   console.log("is Checked? ", withBorder);
 
@@ -73,10 +75,10 @@ function App() {
 
       imgWidth = imageSrc.bitmap.width;
       imgHeight = imageSrc.bitmap.height;
-      rasterSize = Math.floor(imgWidth / 30);
+      rasterSize = Math.floor(imgWidth / rasterSizeFactor);
       const greyscaleImageWidth = Math.floor(imgWidth / 15);
       const finalExport = new Jimp(
-        imgWidth + greyscaleImageWidth,
+        withGrayScale ? imgWidth + greyscaleImageWidth : imgWidth,
         imgHeight,
         0xffffffff
       );
@@ -177,6 +179,7 @@ function App() {
            * Erstellt GreyScale
            *
            */
+
           Jimp.read(imageInput, (err, image) => {
             if (err) throw err;
 
@@ -231,8 +234,9 @@ function App() {
               }
               blockHeightSum += blockHeight;
             }
-
-            finalExport.composite(greyscaleImage, imgWidth, 0);
+            if (withGrayScale) {
+              finalExport.composite(greyscaleImage, imgWidth, 0);
+            }
 
             finalExport
               .getBase64Async(Jimp.MIME_JPEG)
@@ -276,6 +280,8 @@ function App() {
           </div>
         </label>
 
+        <h2 style={{ marginBottom: "15px" }}>Options</h2>
+
         <label>Colors in Palette: {palletteSize}</label>
 
         <input
@@ -287,13 +293,36 @@ function App() {
           onChange={(e) => setPalletteSize(e.target.value)}
         />
 
-        <div style={{ display: "flex", marginBottom: "30px" }}>
+        <label>
+          Raster Size: {rasterSizeFactor}{" "}
+          <small>(Smaller Value = bigger Pixel Blocks)</small>
+        </label>
+
+        <input
+          type="range"
+          min="10"
+          max="40"
+          step="1"
+          value={rasterSizeFactor}
+          onChange={(e) => setRasterSizeFactor(e.target.value)}
+        />
+
+        <div style={{ display: "flex", marginBottom: "5px" }}>
           <input
             type="checkbox"
             checked={withBorder}
             onChange={(e) => setWithBorder(e.target.checked)}
           />
           <label>Draw Border</label>
+        </div>
+
+        <div style={{ display: "flex", marginBottom: "30px" }}>
+          <input
+            type="checkbox"
+            checked={withGrayScale}
+            onChange={(e) => setWithGrayScale(e.target.checked)}
+          />
+          <label>Include Grayscale</label>
         </div>
 
         <button
@@ -309,12 +338,22 @@ function App() {
           <>
             <h1>Result</h1>
             <div className="Image-Container">
-              <img src={processedImg} className="Image-Selector-Image" />
+              <div
+                className="Image-Selector"
+                style={{ background: "transparent" }}
+              >
+                <img src={processedImg} className="Image-Selector-Image" />
+              </div>
             </div>
           </>
         ) : loading ? (
           <h2>Loading...</h2>
         ) : null}
+
+        <div>
+          this tool was made as part of a color design course at the "Hochschule
+          der Medien" by Avina Graefe & Tobias Reinbold
+        </div>
       </div>
     </div>
   );
