@@ -12,7 +12,7 @@ function App() {
   const [palletteSize, setPalletteSize] = useState(20);
   const [rasterSizeFactor, setRasterSizeFactor] = useState(30);
   const [withBorder, setWithBorder] = useState(false);
-  const [withGrayScale, setWithGrayScale] = useState(false);
+  const [withGrayScale, setWithGrayScale] = useState(true);
 
   console.log("is Checked? ", withBorder);
 
