@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import Jimp from "jimp";
 import { getPaletteFromURL } from "color-thief-node";
 
-//import { genMondrian } from "./mondrian";
-
 function App() {
   const [img, setImg] = useState();
   const [processedImg, setProcessedImg] = useState();
@@ -13,8 +11,6 @@ function App() {
   const [rasterSizeFactor, setRasterSizeFactor] = useState(30);
   const [withBorder, setWithBorder] = useState(false);
   const [withGrayScale, setWithGrayScale] = useState(true);
-
-  console.log("is Checked? ", withBorder);
 
   function handleImage(e) {
     if (e.target.files[0] != null) {
@@ -87,7 +83,7 @@ function App() {
 
       /*
        *
-       * Analysiert Pixelated Img
+       * Passt Farben an Palette an
        *
        */
       Jimp.read(imageSrc, (err, imagePixelated) => {
@@ -119,7 +115,7 @@ function App() {
 
         /*
          *
-         * Passt Farben an Pallette an
+         * Zeichnet Rahmen
          *
          */
         Jimp.read(normalizedImg, (err, image) => {
